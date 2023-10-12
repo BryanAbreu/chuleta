@@ -1,0 +1,99 @@
+
+https://www.delftstack.com/es/howto/csharp/csharp-datatable-to-csv/#c%C3%B3digo-fuente-completo
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataTableExport
+{
+  public static class datacreation
+   {
+    public static DataTable CreateData()
+     {
+       DataTable dt = new DataTable();
+       dt.Columns.Add("RollNum", typeof(int));
+       dt.Columns.Add("Firstname", typeof(string));
+       dt.Columns.Add("Lastname", typeof(string));
+       dt.Columns.Add("Subjects", typeof(string));
+
+       dt.Rows.Add(3227, "Zeeshan", "Khan","C#");
+       dt.Rows.Add(3290, "Bubby", "Zeeshan", "Java");
+       dt.Rows.Add(3247, "Osama", "shanii", "C++");
+       dt.Rows.Add(3156, "Haseeb", "Bhatti", "Python");
+       dt.Rows.Add(3223, "Saad", "Shukhri", "Mongo Db");
+       dt.Rows.Add(3267, "Sheraz", "Malik", "MySQl");
+       dt.Rows.Add(3288, "Nabeel", "Sindho", "PHP");
+       dt.Rows.Add(3299, "Ahsan", "Chishti", "C");
+       return dt;
+     }
+    }
+    public static class implementCSV
+    {
+      public static void ConvertTocsv(this DataTable dt, string path)
+      {
+        StreamWriter s = new StreamWriter(path, false);
+        for (int i = 0; i < dt.Columns.Count; i++)
+            {
+              s.Write(dt.Columns[i]);
+                if (i < dt.Columns.Count - 1)
+                {
+                    s.Write(",");
+                }
+            }
+        s.Write(s.NewLine);
+        foreach (DataRow dr in dt.Rows) {
+          for (int i = 0; i < dt.Columns.Count; i++) {
+              if (!Convert.IsDBNull(dr[i])) {
+                string value = dr[i].ToString();
+                if (value.Contains(',')) {
+                    value = String.Format("\"{0}\"", value);
+                    s.Write(value);
+                }
+                else {
+                    s.Write(dr[i].ToString());
+                 }
+                }
+                if (i < dt.Columns.Count - 1) {
+                    s.Write(",");
+                 }
+            }
+             s.Write(s.NewLine);
+          }
+           s.Close();
+        }
+    }
+}
+
+--------------------------------------------------------------------
+https://webprogramacion.com/pasar-un-dataset-a-un-fichero-de-texto-separado-por-comas/
+
+private void dataset_to_file_csv(DataSet ds, String path)
+{
+   String[] texto;
+   texto = new String[ds.Tables[0].Rows.Count + 1];
+   //Rellenamos la cabecera del fichero
+   texto[0] = String.Empty;
+   for (int i = 0; i < ds.Tables[0].Columns.Count; i++)
+   {
+      texto[0] += ds.Tables[0].Columns[i].ColumnName + “;”;
+   }
+   //Rellenamos el detalle del fichero
+   String linea;
+   for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+   {
+      linea = String.Empty;
+      for (int j = 0; j < ds.Tables[0].Columns.Count; j++)
+      {
+         linea += ds.Tables[0].Rows[i][j].ToString() + “;”;
+      }
+      texto[i + 1] = linea;
+   }
+   File.WriteAllLines(path + “.csv”, texto);
+}
+--------------------------------------------------------------------
+
+https://www.youtube.com/watch?v=9xXQ6_EZyPs
