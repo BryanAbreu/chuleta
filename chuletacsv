@@ -97,3 +97,5 @@ private void dataset_to_file_csv(DataSet ds, String path)
 --------------------------------------------------------------------
 
 https://www.youtube.com/watch?v=9xXQ6_EZyPs
+CODIGO PARA INSTALAR PIP 
+py -m pip install pyinstaller   
